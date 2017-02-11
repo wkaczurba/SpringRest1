@@ -40,6 +40,11 @@ public class CarRestController {
 		return repo.find(id); // TODO: This can throw an exception.
 	}
 	
+	private Car exampleCar = new Car(2L, "Fiat", "Punto", 1000.0f, 1995); 
+	@RequestMapping(path="/example", method=RequestMethod.GET, produces="application/json")
+	public Car getStatic() {
+		return exampleCar;
+	}
 
 	// How should I do that?
 	// {"id":1,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008}
@@ -60,5 +65,6 @@ public class CarRestController {
 		return car;
 		
 	}*/
-	// [{"id":1,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008},{"id":2,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008},{"id":3,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008},{"id":4,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008},{"id":5,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008}]	
+	// [{"id":1,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008},{"id":2,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008},{"id":3,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008},{"id":4,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008},{"id":5,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008}]
+
 }
