@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +39,7 @@ public class RestControllerTest {
 	WebApplicationContext wContext;
 	
 	@Test
-	public void restTest() throws Exception {
+	public void restExampleTest() throws Exception {
 		MockMvc mvc = MockMvcBuilders.standaloneSetup(controller)
 				.build();
 		
@@ -57,6 +58,18 @@ public class RestControllerTest {
 			String str = result.andReturn().getResponse().getContentAsString();
 			System.out.println(str); // {"id":2,"make":"Fiat","model":"Punto","engineSize":1000.0,"year":1995}
 	}	
+	
+	@Test
+	public void restPostTest() throws Exception {
+		MockMvc mvc = MockMvcBuilders.standaloneSetup(controller).build();
+			
+		// Post-test
+		mvc.perform(
+				post("/cars/add")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content("{\"id\":3,\"make\":\"Mercedes\",\"model\":\"Benz\",\"engineSize\":3398.0,\"year\":2011}"))
+			.andExpect(status().isOk()); 
+	}
 	
 
 }

@@ -8,7 +8,7 @@ import com.domain.Car;
 
 public interface CarRepository {
 
-	void add(Car add);
+	Car add(Car add);
 	List<Car> findAll();
 	Car find(long id);
 	

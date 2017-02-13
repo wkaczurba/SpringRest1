@@ -52,9 +52,10 @@ public class CarRestController {
 	public Car add(@RequestBody Car car) {
 		System.out.println("add: car" + car);		
 		repo.add(car);
-		return repo.find(car.getId());
 		
-		// TODO: Should add resource address.
+		System.out.println( "all cars:" + repo.findAll() );
+		
+		return car;
 	}
 	
 	
