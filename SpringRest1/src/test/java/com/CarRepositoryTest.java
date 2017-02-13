@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.config.AppConfig;
 import com.config.DataConfig;
@@ -14,11 +15,16 @@ import com.data.CarNotFoundException;
 import com.data.CarRepository;
 import com.data.JdbcCarRepository;
 import com.domain.Car;
+import com.web.WebConfig;
 
 import org.junit.Assert;
 
-@ContextConfiguration(classes={AppConfig.class})
+/*@ContextConfiguration(classes={AppConfig.class})
 @RunWith(SpringJUnit4ClassRunner.class)
+*/
+@ContextConfiguration(classes={AppConfig.class, WebConfig.class})
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
 public class CarRepositoryTest {
 	
 	@Autowired

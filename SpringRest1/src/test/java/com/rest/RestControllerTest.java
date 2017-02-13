@@ -37,7 +37,6 @@ public class RestControllerTest {
 	@Autowired
 	WebApplicationContext wContext;
 	
-	// FIXME: Test does not work.
 	@Test
 	public void restTest() throws Exception {
 		MockMvc mvc = MockMvcBuilders.standaloneSetup(controller)
@@ -53,19 +52,10 @@ public class RestControllerTest {
 			.andExpect(jsonPath("$.model", is("Punto")))
 			.andExpect(jsonPath("engineSize", is(1000.0)))
 			.andExpect(jsonPath("$.year", is(1995)));
-			//.andExpect()
 
 			// Printing the stuff:
 			String str = result.andReturn().getResponse().getContentAsString();
 			System.out.println(str); // {"id":2,"make":"Fiat","model":"Punto","engineSize":1000.0,"year":1995}
-			
-	
-			
-			
-			//.andDo(MockMvcResultHandlers.print());
-//			//.andExpect(	("", hasSize(2)));
-//			//.andExpect(jsonPath("
-//
 	}	
 	
 

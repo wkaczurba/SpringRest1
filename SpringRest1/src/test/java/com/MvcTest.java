@@ -1,8 +1,13 @@
 package com;
 
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.config.AppConfig;
 import com.web.MainController;
+import com.web.WebConfig;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -20,6 +25,10 @@ import org.springframework.test.web.servlet.RequestBuilder;
 // No need to configure get the configuration here.
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(classes={})
+
+/*@ContextConfiguration(classes={AppConfig.class, WebConfig.class})
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration*/
 public class MvcTest {
 
 
