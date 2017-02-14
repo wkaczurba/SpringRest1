@@ -95,7 +95,10 @@ function addNew() {
 	//get();
 	
 	//car = ;
-	var data = {"id":3,"make":"Mercedes","model":"Benz","engineSize":1000.0,"year":1932};
+	//var data = {"id":3,"make":"Mercedes","model":"Benz","engineSize":1000.0,"year":1932};
+	
+	var data = '{"id": 3,"make": "Jeep","model": "Cherokee","engineSize": 3349.0,"year": 2012}';
+	
 /*	$.post('http://127.0.0.1:8080/SpringRest1/cars/add', data, function(response) {
 		// Do something with the request
 	}, 'json');	*/
@@ -111,7 +114,7 @@ function addNew() {
 	  url: 'http://127.0.0.1:8080/SpringRest1/cars/add',
 	  data: data,
 	  contentType: 'application/json',
-	  success: function( data ) { alert('success') },
+	  success: function( data ) { alert('success'); },
 	  dataType: "json"
 	});		
 }

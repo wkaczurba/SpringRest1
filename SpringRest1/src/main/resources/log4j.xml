@@ -27,6 +27,11 @@
 	<logger name="org.springframework.context">
 		<level value="info" />
 	</logger>
+	
+	<logger name="org.springframework.security">
+		<level value="debug" />
+	</logger>
+	
 
 	<logger name="org.springframework.web">
 		<level value="debug" />
