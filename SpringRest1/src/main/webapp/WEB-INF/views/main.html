@@ -1,0 +1,147 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+
+/*var myList = [
+  { "name": "abc", "age": 50 },
+  { "age": "25", "hobby": "swimming" },
+  { "name": "xyz", "hobby": "programming" }
+];*/
+
+function get(src, selector) {
+	var x;
+	$.getJSON( src, function( json ) {
+		clearTable(selector);
+		buildHtmlTable(selector, json);
+	});
+}
+
+function clearTable(tb) {
+	/*console.log($(tb).parent().name());
+	//var length = $(tb).rows.length;
+	
+	while ($(tb).parent().rows != null && $(tb).parent().rows.length > 0) {
+		$(tb).deleteRow();
+	}*/
+	$(tb).empty();
+}
+
+// Builds the HTML Table out of myList.
+function buildHtmlTable(selector, myList) {
+	var columns = addAllColumnHeaders(myList, selector);
+    var row$ = $('<tr/>');
+	
+	if (myList.length > 0) {
+		alert('untested with multiple lines');
+		
+		for (var rowIndex = 0; rowIndex < myList.length; rowIndex++) {
+			for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+			  var cellValue = myList[rowIndex][columns[colIndex]];//      var cellValue = myList[i][columns[colIndex]];
+			  
+			  //var cellValue = myList[column];//      var cellValue = myList[i][columns[colIndex]];
+			  if (cellValue == null) cellValue = "";
+			  row$.append($('<td/>').html(cellValue));
+			}
+			$(selector).append(row$);		
+		}
+	} else {
+		for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+		  var cellValue = myList[columns[colIndex]];//      var cellValue = myList[i][columns[colIndex]];
+		  
+		  //var cellValue = myList[column];//      var cellValue = myList[i][columns[colIndex]];
+		  if (cellValue == null) cellValue = "";
+		  row$.append($('<td/>').html(cellValue));
+		}
+		$(selector).append(row$);
+	}
+}
+
+// Adds a header row to the table and returns the set of columns.
+// Need to do union of keys from all records as some records may not contain
+// all records.
+function addAllColumnHeaders(myList, selector) {
+  var columnSet = [];
+  var headerTr$ = $('<tr/>');
+
+  // This is for a multiple stuff:
+  if (myList.length > 0) {
+	  for (var i = 0; i < myList.length; i++) {
+		var rowHash = myList[i];
+		for (var key in rowHash) {
+		  if ($.inArray(key, columnSet) == -1) {
+			columnSet.push(key);
+			headerTr$.append($('<th/>').html(key));
+		  }
+		}
+	  }
+  } else {
+	for (var key in myList) {
+		columnSet.push(key);
+		headerTr$.append($('<th/>').html(key));
+	}
+  }
+  $(selector).append(headerTr$);
+
+  return columnSet;
+}
+
+function addNew() {
+	alert("Adding new");
+	
+	$.ajaxSetup({
+		contentType: "application/json; charset=utf-8"
+	});
+	//get();
+	
+	//car = ;
+	var data = {"id":3,"make":"Mercedes","model":"Benz","engineSize":1000.0,"year":1932};
+/*	$.post('http://127.0.0.1:8080/SpringRest1/cars/add', data, function(response) {
+		// Do something with the request
+	}, 'json');	*/
+		/*function(data) {
+		alert( "Data Posted:" + data );
+		}, "json");*/
+/*	.done(function( data ) {
+		alert( "Data Posted:" + data );
+    }, "json");*/
+	
+	$.ajax({
+	  type: "POST",
+	  url: 'http://127.0.0.1:8080/SpringRest1/cars/add',
+	  data: data,
+	  contentType: 'application/json',
+	  success: function( data ) { alert('success') },
+	  dataType: "json"
+	});		
+}
+
+function refresh() {
+	get('http://127.0.0.1:8080/SpringRest1/cars/example.json', '#excelDataTable');
+	get('http://127.0.0.1:8080/SpringRest1/cars/', '#tableAll');
+}
+</script>
+
+</head>
+<!-- <body onLoad="buildHtmlTable('#excelDataTable')"> -->
+
+<body onLoad="refresh()">
+<h1>
+Test.
+</h1>
+
+
+<h3>Table Example</h3>
+  <table id="excelDataTable" border="1">
+  </table>
+  
+<h3>Table with all:</h3>
+  <table id="tableAll" border="1">
+  </table>
+  
+  <br /><br />
+  <span style="color:yellow; background-color:blue" onclick="addNew();">Add</span> | 
+  <span style="color:yellow; background-color:blue" onclick="refresh();">Refresh</span>
+</body>
+
+</html>

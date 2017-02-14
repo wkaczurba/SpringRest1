@@ -64,8 +64,10 @@ public class CarRestController {
 	// {"id":1,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008}
 	@RequestMapping(path="/add", method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<Car> add(@RequestBody Car car, UriComponentsBuilder ucb) {
-		//System.out.println("add: car" + car);		
+		//System.out.println("add: car" + car);
+		System.out.println("Adding car...");
 		repo.add(car);
+		System.out.println("Car added!");
 		
 		HttpHeaders headers = new HttpHeaders();
 		URI uri = ucb.path("/cars/").path(String.valueOf(car.getId())).build().toUri();
