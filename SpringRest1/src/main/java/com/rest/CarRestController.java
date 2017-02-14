@@ -1,13 +1,21 @@
 package com.rest;
 
+import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.data.CarNotFoundException;
 import com.data.CarRepository;
 import com.domain.Car;
 
@@ -36,8 +44,14 @@ public class CarRestController {
 
 	@RequestMapping(path="/{id}", method=RequestMethod.GET, produces="application/json") 
 	public Car get(@PathVariable long id) {
-		
-		return repo.find(id); // TODO: This can throw an exception.
+		return repo.find(id); // TODO: This can throw a CarNotFoundException.
+	}
+	
+	@ExceptionHandler(CarNotFoundException.class)
+	public ResponseEntity<CustomError> carNotFoundExceptionHandler(CarNotFoundException e) {
+		CustomError error = new CustomError(e.getId(), "Could not find car with the specified id");
+		ResponseEntity<CustomError> response = new ResponseEntity<CustomError>(error, HttpStatus.NOT_FOUND);
+		return response;
 	}
 	
 	private Car exampleCar = new Car(2L, "Fiat", "Punto", 1000.0f, 1995); 
@@ -49,14 +63,18 @@ public class CarRestController {
 	// How should I do that?
 	// {"id":1,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008}
 	@RequestMapping(path="/add", method=RequestMethod.POST, consumes="application/json")
-	public Car add(@RequestBody Car car) {
-		System.out.println("add: car" + car);		
+	public ResponseEntity<Car> add(@RequestBody Car car, UriComponentsBuilder ucb) {
+		//System.out.println("add: car" + car);		
 		repo.add(car);
 		
-		System.out.println( "all cars:" + repo.findAll() );
+		HttpHeaders headers = new HttpHeaders();
+		URI uri = ucb.path("/cars/").path(String.valueOf(car.getId())).build().toUri();
 		
-		return car;
+		headers.setLocation(uri);
+		return new ResponseEntity<Car>(car, headers, HttpStatus.CREATED);
 	}
+	
+	// TODO: Add / Created status.
 	
 	
 	/*@RequestMapping(path="/debugadd", method=RequestMethod.POST, produces="application/json")
