@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,13 @@ public class CarRestController {
 	
 	@Autowired
 	CarRepository repo;
+	
+	// Taken from: http://stackoverflow.com/questions/30532622/handling-cross-domain-preflight-ajax-options-requests-with-spring-mvc-4
+	/*@RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
+	//@ResponseBody
+	public ResponseEntity handleOptions() {
+	    return new ResponseEntity(HttpStatus.NO_CONTENT);
+	}*/	
 	
 	// No need for @ResponseBody: Given the @RestController annotation -> @RequestMapping will suffice.
 	@RequestMapping(method=RequestMethod.GET, produces="application/json")
@@ -62,6 +70,7 @@ public class CarRestController {
 
 	// How should I do that?
 	// {"id":1,"make":"Toyota","model":"Corolla","engineSize":1398.0,"year":2008}
+	@CrossOrigin
 	@RequestMapping(path="/add", method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<Car> add(@RequestBody Car car, UriComponentsBuilder ucb) {
 		//System.out.println("add: car" + car);

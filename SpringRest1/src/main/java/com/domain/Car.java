@@ -1,5 +1,8 @@
 package com.domain;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class Car {
 	private Long id;
 	private String make;
@@ -89,46 +92,13 @@ public class Car {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Float.floatToIntBits(engineSize);
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((make == null) ? 0 : make.hashCode());
-		result = prime * result + ((model == null) ? 0 : model.hashCode());
-		result = prime * result + year;
-		return result;
+		return HashCodeBuilder.reflectionHashCode(this, "id");
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Car other = (Car) obj;
-		if (Float.floatToIntBits(engineSize) != Float.floatToIntBits(other.engineSize))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (make == null) {
-			if (other.make != null)
-				return false;
-		} else if (!make.equals(other.make))
-			return false;
-		if (model == null) {
-			if (other.model != null)
-				return false;
-		} else if (!model.equals(other.model))
-			return false;
-		if (year != other.year)
-			return false;
-		return true;
+	public boolean equals(Object that) {
+		return EqualsBuilder.reflectionEquals(this, that, "id");
 	}
 }
